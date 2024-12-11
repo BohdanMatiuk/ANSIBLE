@@ -1,0 +1,25 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Install apache # #(state=present is optional) #not mandatody
+    ansible.builtin.apt:
+      name: apache2
+      state: present
+      update_cache: yes
+
+  - name: Install tree # #(state=present is optional) #not mandatody
+    ansible.builtin.apt:
+      name: tree
+      state: present
+    notify: Restart service apache
+  - name: Remove tree # #(state=present is optional) #not mandatody
+    ansible.builtin.apt:
+      name: tree
+      state: absent
+  handlers:
+  - name: Restart service apache #httpd, if not started
+    ansible.builtin.service:
+      name: apache2 #httpd for redhat
+      state: started
+      enabled: yes
+

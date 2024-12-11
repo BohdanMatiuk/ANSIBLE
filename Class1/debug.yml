@@ -1,0 +1,17 @@
+- hosts: all
+  vars:
+    packages:
+      - tree
+      - apache2
+      - wget
+      - git
+      - unzip
+  become: yes
+  tasks:
+  - name: Install apache
+    ansible.builtin.apt:
+      name: "{{ packages }}"
+      state: present
+    register: variable #create varable out of the output of this task
+
+  - debug: msg={{ variable }}
